@@ -1,0 +1,21 @@
+services:
+  # 1. FastAPI Backend Web Service
+  - type: web
+    name: nest-logix-backend
+    env: python
+    rootDir: ./backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0 # Adjust to match your local development environment
+      - key: FORWARDED_ALLOW_IPS
+        value: "*"
+
+  # 2. Frontend Static Site
+  - type: static
+    name: nest-logix-frontend
+    env: static
+    rootDir: ./frontend
+    buildCommand: "" # Leave empty if using raw HTML/JS/CSS. If using React/Vite, use: "npm install && npm run build"
+    publishDir: "." # Set to "dist" or "build" if your build script compiles into a subfolder
