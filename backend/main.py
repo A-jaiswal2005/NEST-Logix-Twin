@@ -14,9 +14,9 @@ app = FastAPI(title="Logistics Network Digital Twin API", version="1.0.0")
 # ---------------------------------------------------------------------------
 # Secured for production on GitHub Pages, while allowing local development.
 origins = [
-    "https://a-jaiswal2005.github.io",  
-    "http://localhost:8000",            # Local testing
-    "http://localhost:3000",            # Local testing (if using React/Vite/etc)
+    "https://a-jaiswal2005.github.io", 
+    "http://localhost:8000",            
+    "http://localhost:3000",            
 ]
 app.add_middleware(
     CORSMiddleware,
