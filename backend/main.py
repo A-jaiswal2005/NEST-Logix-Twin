@@ -1,21 +1,3 @@
-"""
-Logistics Network Digital Twin — Backend
-=========================================
-FastAPI service that simulates a live stream of shipments moving across a
-global network. State lives in memory and is mutated by a background
-asyncio task, so every poll of /api/shipments reflects the network "as of
-right now" — exactly what a digital twin should do.
-
-Run:
-    pip install -r requirements.txt
-    uvicorn main:app --reload --port 8000
-
-Endpoints:
-    GET /api/shipments   -> list of all shipments with live status
-    GET /api/kpis        -> aggregate counts (total / active / delayed / ...)
-    GET /                -> health check
-"""
-
 import asyncio
 import random
 from datetime import datetime, timezone
@@ -27,11 +9,18 @@ from pydantic import BaseModel
 
 app = FastAPI(title="Logistics Network Digital Twin API", version="1.0.0")
 
-# Wide-open CORS so the static frontend (served from any local port/file)
-# can poll this API during development. Tighten this for production.
+# ---------------------------------------------------------------------------
+# CORS Configuration
+# ---------------------------------------------------------------------------
+# Secured for production on GitHub Pages, while allowing local development.
+origins = [
+    "https://a-jaiswal2005.github.io",  
+    "http://localhost:8000",            # Local testing
+    "http://localhost:3000",            # Local testing (if using React/Vite/etc)
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
